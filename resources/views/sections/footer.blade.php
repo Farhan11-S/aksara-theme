@@ -5,8 +5,8 @@
       <!-- Left: Icon with Site Name -->
       <div class="footer-left">
         <div class="flex items-center space-x-4">
-          <img src="{{ Vite::asset('resources/images/main-icon.png') }}" alt="Aksara Sinergi Teknologi" class="w-10 h-10">
-          <span class="text-2xl font-bold text-white">Aksara Sinergi Teknologi</span>
+          <img src="{{ \App\get_site_logo_url() }}" alt="{{ get_bloginfo('name', 'display') }}" class="w-10 h-10">
+          <span class="text-2xl font-bold text-white">{{ get_bloginfo('name', 'display') }}</span>
         </div>
       </div>
 
@@ -36,7 +36,7 @@
     <div class="border-t border-gray-800 mt-16 pt-8">
       <div class="text-center">
         <div class="text-gray-400 text-lg">
-          © {{ date('Y') }} Aksara Sinergi Teknologi. Hak Cipta Dilindungi.
+          © {{ date('Y') }} {{ get_bloginfo('name', 'display') }}. Hak Cipta Dilindungi.
         </div>
       </div>
     </div>

@@ -46,9 +46,9 @@
     <div class="flex justify-between items-center h-24">
       <!-- Logo - Left -->
       <a class="brand flex items-center space-x-4 ml-2 md:ml-4" href="{{ home_url('/') }}">
-        <img src="{{ Vite::asset('resources/images/main-icon.png') }}" alt="Aksara Sinergi Teknologi" class="w-16 h-16">
-        <span class="text-2xl font-bold text-black hidden sm:block">Aksara Sinergi Teknologi</span>
-        <span class="text-2xl font-bold text-black sm:hidden">AST</span>
+        <img src="{{ \App\get_site_logo_url() }}" alt="{{ get_bloginfo('name', 'display') }}" class="w-16 h-16">
+        <span class="text-2xl font-bold text-black hidden sm:block">{{ get_bloginfo('name', 'display') }}</span>
+        <span class="text-2xl font-bold text-black sm:hidden">{{ substr(get_bloginfo('name', 'display'), 0, 1) . substr(str_replace(' ', '', get_bloginfo('name', 'display')), -2, 2) }}</span>
       </a>
 
       <!-- Desktop Navigation - Center -->

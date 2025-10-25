@@ -12,16 +12,16 @@
     <!-- Company Name with Dots -->
     <div class="company-name relative inline-block text-gray-500 text-2xl font-light tracking-wider mb-8 opacity-70">
       <span class="dot dot-left absolute top-1/2 left-[-20px] w-2 h-2 bg-gray-300 rounded-full transform -translate-y-1/2"></span>
-      Aksara Sinergi Teknologi
+      {{ get_bloginfo('name', 'display') }}
       <span class="dot dot-right absolute top-1/2 right-[-20px] w-2 h-2 bg-gray-300 rounded-full transform -translate-y-1/2"></span>
     </div>
     
     <!-- Main Heading -->
-    <h1 class="main-heading text-black text-5xl md:text-6xl lg:text-7xl font-black mb-8 leading-tight">Grow With Us</h1>
+    <h1 class="main-heading text-black text-5xl md:text-6xl lg:text-7xl font-black mb-8 leading-tight">{{ \App\get_hero_title() }}</h1>
     
     <!-- Hero Image -->
     <div class="hero-image mt-8 max-w-full animate-fade-in-up">
-      <img src="{{ Vite::asset('resources/images/lentera-hero.png') }}" alt="Technology Solutions" class="max-w-full h-auto rounded-lg" />
+      <img src="{{ \App\get_hero_image_url() }}" alt="Technology Solutions" class="max-w-full h-auto rounded-lg" />
     </div>
   </div>
 </section>

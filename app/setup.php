@@ -153,3 +153,72 @@ add_action('widgets_init', function () {
         'id' => 'sidebar-footer',
     ] + $config);
 });
+
+/**
+ * Register custom post type for products.
+ *
+ * @return void
+ */
+add_action('init', function () {
+    register_post_type('product', [
+        'labels' => [
+            'name' => __('Products', 'sage'),
+            'singular_name' => __('Product', 'sage'),
+            'add_new' => __('Add New Product', 'sage'),
+            'add_new_item' => __('Add New Product', 'sage'),
+            'edit_item' => __('Edit Product', 'sage'),
+            'new_item' => __('New Product', 'sage'),
+            'view_item' => __('View Product', 'sage'),
+            'search_items' => __('Search Products', 'sage'),
+            'not_found' => __('No products found', 'sage'),
+            'not_found_in_trash' => __('No products found in Trash', 'sage'),
+            'parent_item_colon' => __('Parent Product:', 'sage'),
+            'menu_name' => __('Products', 'sage'),
+        ],
+        'hierarchical' => false,
+        'description' => __('Product descriptions and details', 'sage'),
+        'supports' => [
+            'title',
+            'editor',
+            'excerpt',
+            'thumbnail',
+            'custom-fields',
+            'revisions',
+        ],
+        'public' => true,
+        'publicly_queryable' => true,
+        'show_ui' => true,
+        'show_in_menu' => true,
+        'show_in_nav_menus' => true,
+        'query_var' => true,
+        'rewrite' => [
+            'slug' => 'product',
+            'with_front' => false,
+        ],
+        'capability_type' => 'post',
+        'has_archive' => true,
+        'menu_position' => 20,
+        'menu_icon' => 'dashicons-products',
+        'show_in_rest' => true,
+    ]);
+});
+
+/**
+ * Template loader for single products.
+ *
+ * @param string $template The template path.
+ * @return string The modified template path.
+ */
+add_filter('single_template', function ($template) {
+    global $post;
+    
+    if ($post->post_type === 'product') {
+        $theme_template = locate_template(['single-product.blade.php']);
+        
+        if ($theme_template) {
+            return $theme_template;
+        }
+    }
+    
+    return $template;
+});
