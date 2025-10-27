@@ -24,6 +24,7 @@ add_action('add_meta_boxes', function () {
             $product_button_text = get_post_meta($post->ID, '_product_button_text', true);
             $product_button_url = get_post_meta($post->ID, '_product_button_url', true);
             $product_visible = get_post_meta($post->ID, '_product_visible', true);
+            $product_carousel_images = get_post_meta($post->ID, '_product_carousel_images', true);
             
             // Icon options
             $icon_options = [
@@ -85,6 +86,31 @@ add_action('add_meta_boxes', function () {
                     </select>
                     <p class="description"><?php _e('Whether to show this product on the homepage', 'sage'); ?></p>
                 </div>
+                
+                <div class="field-group">
+                    <label for="product_carousel_images"><?php _e('Product Carousel Images', 'sage'); ?></label>
+                    <div id="product-carousel-images-container">
+                        <div class="carousel-images-wrapper">
+                            <?php
+                            $carousel_images = $product_carousel_images ? explode(',', $product_carousel_images) : [];
+                            if (!empty($carousel_images)) {
+                                foreach ($carousel_images as $image_id) {
+                                    if ($image_id) {
+                                        $image_url = wp_get_attachment_image_url($image_id, 'thumbnail');
+                                        echo '<div class="carousel-image-item" data-image-id="' . esc_attr($image_id) . '">';
+                                        echo '<img src="' . esc_url($image_url) . '" alt="Carousel Image" />';
+                                        echo '<button type="button" class="remove-carousel-image">×</button>';
+                                        echo '</div>';
+                                    }
+                                }
+                            }
+                            ?>
+                        </div>
+                        <button type="button" id="add-carousel-image" class="button"><?php _e('Add Image', 'sage'); ?></button>
+                        <input type="hidden" id="product_carousel_images" name="product_carousel_images" value="<?php echo esc_attr($product_carousel_images); ?>" />
+                    </div>
+                    <p class="description"><?php _e('Add multiple images for the product carousel', 'sage'); ?></p>
+                </div>
             </div>
             
             <style>
@@ -102,6 +128,41 @@ add_action('add_meta_boxes', function () {
                     font-size: 12px;
                     margin-top: 5px;
                 }
+                .carousel-images-wrapper {
+                    display: flex;
+                    flex-wrap: wrap;
+                    gap: 10px;
+                    margin-bottom: 10px;
+                }
+                .carousel-image-item {
+                    position: relative;
+                    width: 100px;
+                    height: 100px;
+                    border: 1px solid #ddd;
+                    border-radius: 4px;
+                    overflow: hidden;
+                }
+                .carousel-image-item img {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                }
+                .remove-carousel-image {
+                    position: absolute;
+                    top: 5px;
+                    right: 5px;
+                    background: #ff0000;
+                    color: #fff;
+                    border: none;
+                    border-radius: 50%;
+                    width: 20px;
+                    height: 20px;
+                    font-size: 12px;
+                    cursor: pointer;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                }
             </style>
             <?php
         },
@@ -109,6 +170,24 @@ add_action('add_meta_boxes', function () {
         'normal',
         'high'
     );
+});
+
+/**
+ * Enqueue admin scripts for product fields.
+ */
+add_action('admin_enqueue_scripts', function ($hook) {
+    global $post_type;
+    
+    if (($hook === 'post.php' || $hook === 'post-new.php') && $post_type === 'product') {
+        wp_enqueue_media(); // Required for the media uploader
+        wp_enqueue_script(
+            'admin-product-fields',
+            get_template_directory_uri() . '/resources/js/admin-product-fields.js',
+            ['jquery'],
+            '1.0.0',
+            true
+        );
+    }
 });
 
 /**
@@ -143,11 +222,16 @@ add_action('save_post', function ($post_id) {
         'product_button_text',
         'product_button_url',
         'product_visible',
+        'product_carousel_images',
     ];
     
     foreach ($fields as $field) {
         if (isset($_POST[$field])) {
-            $value = sanitize_text_field($_POST[$field]);
+            if ($field === 'product_carousel_images') {
+                $value = sanitize_text_field($_POST[$field]);
+            } else {
+                $value = sanitize_text_field($_POST[$field]);
+            }
             update_post_meta($post_id, '_' . $field, $value);
         }
     }
@@ -190,4 +274,36 @@ function get_product_features($post_id) {
     }
     
     return array_filter(array_map('trim', explode("\n", $features)));
+}
+
+/**
+ * Get product carousel images.
+ *
+ * @param int $post_id The product ID.
+ * @return array The carousel images array with URLs.
+ */
+function get_product_carousel_images($post_id) {
+    $carousel_images = get_post_meta($post_id, '_product_carousel_images', true);
+    if (empty($carousel_images)) {
+        return [];
+    }
+    
+    $image_ids = explode(',', $carousel_images);
+    $images = [];
+    
+    foreach ($image_ids as $image_id) {
+        if ($image_id) {
+            $image_url = wp_get_attachment_image_url($image_id, 'large');
+            if ($image_url) {
+                $images[] = [
+                    'id' => $image_id,
+                    'url' => $image_url,
+                    'thumbnail' => wp_get_attachment_image_url($image_id, 'thumbnail'),
+                    'alt' => get_post_meta($image_id, '_wp_attachment_image_alt', true) ?: get_the_title($image_id)
+                ];
+            }
+        }
+    }
+    
+    return $images;
 }

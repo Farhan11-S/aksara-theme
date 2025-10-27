@@ -11,8 +11,28 @@
     $product_button_url = get_post_meta($product_id, '_product_button_url', true);
   @endphp
 
+  <!-- Product List Section -->
+  <section class="product-list-section bg-white py-20">
+    <div class="container px-4 bg-blue-50 py-8 max-w-[80%] mx-auto rounded-lg">
+      <div class="max-w-6xl mx-auto">
+        <div class="mb-8">
+          <div class="company-name relative inline-block text-black text-xl font-light tracking-wider mb-2 opacity-70 ml-5">
+            <span class="dot dot-left absolute top-1/2 left-[-20px] w-2 h-2 bg-black rounded-full transform -translate-y-1/2"></span>
+            Produk Aksara
+            <span class="dot dot-right absolute top-1/2 right-[-20px] w-2 h-2 bg-black rounded-full transform -translate-y-1/2"></span>
+          </div>
+          <h2 class="text-2xl font-bold text-black">Teknologi untuk penuhi kebutuhan bisnis modern</h2>
+        </div>
+        
+        <div class="flex-1 mx-auto">
+          @include('partials.product-list-horizontal', ['current_product_id' => $product_id])
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- Product Hero Section -->
-  <section class="product-hero bg-gradient-to-br from-blue-50 to-white py-20">
+  <section class="product-hero bg-whtie">
     <div class="container mx-auto px-4">
       <div class="max-w-4xl mx-auto text-center">
         <div class="flex justify-center mb-8">
@@ -44,7 +64,7 @@
 
   <!-- Product Features Section -->
   @if(!empty($product_features))
-    <section class="product-features py-16 bg-gray-50">
+    <section class="product-features py-16 bg-whtie">
       <div class="container mx-auto px-4">
         <div class="max-w-4xl mx-auto">
           <h2 class="text-3xl font-bold text-center text-gray-900 mb-12">Key Features</h2>
@@ -68,7 +88,7 @@
 
   <!-- Product Image Section -->
   @if(has_post_thumbnail())
-    <section class="product-image py-16 bg-white">
+    <section class="product-image py-16 bg-whtie">
       <div class="container mx-auto px-4">
         <div class="max-w-4xl mx-auto">
           <div class="rounded-lg overflow-hidden shadow-xl">
@@ -79,60 +99,9 @@
     </section>
   @endif
 
-  <!-- Related Products Section -->
-  @php
-    $related_products = new WP_Query([
-      'post_type' => 'product',
-      'posts_per_page' => 3,
-      'post__not_in' => [$product_id],
-      'orderby' => 'rand',
-    ]);
-  @endphp
-  
-  @if($related_products->have_posts())
-    <section class="related-products py-16 bg-gray-50">
-      <div class="container mx-auto px-4">
-        <div class="text-center mb-12">
-          <h2 class="text-3xl font-bold text-gray-900 mb-4">Related Products</h2>
-          <p class="text-lg text-gray-600 max-w-2xl mx-auto">Explore our other solutions that might interest you</p>
-        </div>
-        
-        <div class="grid md:grid-cols-3 gap-8">
-          @while($related_products->have_posts())
-            @php
-              $related_products->the_post();
-              $related_subtitle = get_post_meta(get_the_ID(), '_product_subtitle', true);
-              $related_icon = get_post_meta(get_the_ID(), '_product_icon', true);
-            @endphp
-            
-            <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition-all duration-300">
-              <div class="flex items-center justify-center mb-6">
-                <div class="w-16 h-16 bg-blue-900 rounded-lg flex items-center justify-center">
-                  <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    {!! \App\get_product_icon_svg($related_icon ?: 'building') !!}
-                  </svg>
-                </div>
-              </div>
-              
-              <h3 class="text-xl font-semibold text-gray-900 mb-3 text-center">{{ get_the_title() }}</h3>
-              
-              @if($related_subtitle)
-                <p class="text-sm text-gray-500 mb-4 text-center">{{ $related_subtitle }}</p>
-              @endif
-              
-              <div class="text-center">
-                <a href="{{ get_permalink() }}" class="inline-block text-blue-900 hover:text-blue-800 font-semibold">
-                  Learn More →
-                </a>
-              </div>
-            </div>
-          @endwhile
-        </div>
-      </div>
-    </section>
-    
-    @php
-        wp_reset_postdata();
-    @endphp
-  @endif
+  <!-- Product Carousel Section -->
+  @include('partials.product-carousel', ['product_id' => $product_id])
+
+  <!-- Footer Section -->
+  @include('sections.footer')
 @endsection
