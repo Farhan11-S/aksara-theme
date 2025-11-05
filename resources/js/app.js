@@ -190,3 +190,30 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 });
+
+// Splash screen functionality
+document.addEventListener('DOMContentLoaded', function() {
+  const splashScreen = document.getElementById('splash-screen');
+  const loadingBar = document.getElementById('loading-bar');
+  const mainContent = document.getElementById('main-content');
+  
+  if (splashScreen && loadingBar) {
+    // Start the loading bar animation
+    setTimeout(() => {
+      loadingBar.style.width = '100%';
+    }, 100);
+    
+    // Hide splash screen and show main content after 1 second
+    setTimeout(() => {
+      splashScreen.classList.add('fade-out');
+      
+      // Show main content with a slight delay for smooth transition
+      setTimeout(() => {
+        if (mainContent) {
+          mainContent.classList.add('show');
+        }
+        splashScreen.style.display = 'none';
+      }, 300);
+    }, 1000);
+  }
+});

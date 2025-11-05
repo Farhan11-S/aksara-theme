@@ -12,6 +12,9 @@
   <body @php(body_class())>
     @php(wp_body_open())
 
+    <!-- Splash Screen -->
+    @include('components.splash-screen')
+
     <div id="app">
       <a class="sr-only focus:not-sr-only" href="#main">
         {{ __('Skip to content', 'sage') }}
@@ -19,17 +22,19 @@
 
       @include('sections.header')
 
-      <main id="main" class="main" style="padding-top: 4rem;">
-        @yield('content')
-      </main>
+      <div id="main-content">
+        <main id="main" class="main" style="padding-top: 4rem;">
+          @yield('content')
+        </main>
 
-      @hasSection('sidebar')
-        <aside class="sidebar">
-          @yield('sidebar')
-        </aside>
-      @endif
+        @hasSection('sidebar')
+          <aside class="sidebar">
+            @yield('sidebar')
+          </aside>
+        @endif
 
-      @yield('footer')
+        @yield('footer')
+      </div>
     </div>
 
     @php(do_action('get_footer'))

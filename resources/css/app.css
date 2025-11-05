@@ -27,3 +27,23 @@
 .shiny-button:hover::before {
   left: 100%;
 }
+
+/* Splash screen styles */
+#splash-screen {
+  transition: opacity 0.3s ease-out;
+}
+
+#splash-screen.fade-out {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Hide main content initially */
+#main-content {
+  opacity: 0;
+  transition: opacity 0.3s ease-in;
+}
+
+#main-content.show {
+  opacity: 1;
+}
