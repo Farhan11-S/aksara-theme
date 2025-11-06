@@ -36,4 +36,9 @@ export default defineConfig({
       '@images': '/resources/images',
     },
   },
+  server: {
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+    },
+  }
 })
