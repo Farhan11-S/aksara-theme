@@ -1,16 +1,16 @@
 @php
     $all_products = new WP_Query([
-        'post_type' => 'product',
-        'posts_per_page' => -1,
-        'orderby' => 'title',
-        'order' => 'ASC',
-        'meta_query' => [
-            [
-                'key' => '_product_visible',
-                'value' => '1',
-                'compare' => '='
-            ]
-        ]
+      'post_type' => 'product',
+      'posts_per_page' => -1,
+      'orderby' => \App\get_products_order(),
+      'order' => 'ASC',
+      'meta_query' => [
+          [
+              'key' => '_product_visible',
+              'value' => '1',
+              'compare' => '=',
+          ],
+      ],
     ]);
 @endphp
 

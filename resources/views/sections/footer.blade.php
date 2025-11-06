@@ -1,4 +1,9 @@
 <footer class="bg-gray-900 text-white relative">
+  <style>
+    div a {
+      text-decoration: none; !important;
+    }
+  </style>
   <div class="container mx-auto px-4 py-16">
     <!-- Main Footer Content -->
     <div class="grid grid-cols-1 md:grid-cols-3 gap-8">

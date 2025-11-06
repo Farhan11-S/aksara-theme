@@ -80,4 +80,40 @@
             }
         });
     });
+
+    // Update About Us hero subtitle in real-time
+    wp.customize('about_us_hero_subtitle', function(value) {
+        value.bind(function(newVal) {
+            $('.about-us-hero .text-blue-900').text(newVal);
+        });
+    });
+
+    // Update About Us hero title in real-time
+    wp.customize('about_us_hero_title', function(value) {
+        value.bind(function(newVal) {
+            $('.about-us-hero .text-gray-900').text(newVal);
+        });
+    });
+
+    // Update About Us hero description in real-time
+    wp.customize('about_us_hero_description', function(value) {
+        value.bind(function(newVal) {
+            $('.about-us-hero .text-gray-600 p').text(newVal);
+        });
+    });
+
+    // Update About Us hero image in real-time
+    wp.customize('about_us_hero_image', function(value) {
+        value.bind(function(newVal) {
+            if (newVal) {
+                // Get the URL of the new hero image
+                wp.media.attachment(newVal).fetch().then(function(attachment) {
+                    $('.about-us-hero img').attr('src', attachment.url);
+                });
+            } else {
+                // Fallback to default hero image
+                $('.about-us-hero img').attr('src', window.location.origin + '/wp-content/themes/aksara-theme/resources/images/lentera-hero.png');
+            }
+        });
+    });
 })(jQuery);

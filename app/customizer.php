@@ -6,6 +6,8 @@
 
 namespace App;
 
+use Illuminate\Support\Facades\Vite;
+
 /**
  * Add postMessage support for site title and description for the Theme Customizer.
  *
@@ -172,6 +174,140 @@ add_action('customize_register', function ($wp_customize) {
         ],
         'priority' => 40,
     ]);
+
+    // Add section for About Us page content
+    $wp_customize->add_section('about_us_content', [
+        'title' => __('About Us Page Content', 'sage'),
+        'description' => __('Customize the Vision and Mission sections on the About Us page.', 'sage'),
+        'priority' => 50,
+    ]);
+
+    // Add setting for About Us Vision title
+    $wp_customize->add_setting('about_us_vision_title', [
+        'default' => 'VISI',
+        'sanitize_callback' => 'sanitize_text_field',
+        'transport' => 'postMessage',
+    ]);
+
+    // Add control for About Us Vision title
+    $wp_customize->add_control('about_us_vision_title', [
+        'label' => __('Vision Title', 'sage'),
+        'section' => 'about_us_content',
+        'type' => 'text',
+        'priority' => 10,
+    ]);
+
+    // Add setting for About Us Vision content
+    $wp_customize->add_setting('about_us_vision_content', [
+        'default' => 'Menjadi perusahaan penyedia jasa IT terdepan yang handal dan inovatif, mendorong transformasi digital melalui layanan pengembangan aplikasi, infrastruktur, keamanan sistem dan implementasi sistem yang terpercaya.',
+        'sanitize_callback' => 'sanitize_textarea_field',
+        'transport' => 'postMessage',
+    ]);
+
+    // Add control for About Us Vision content
+    $wp_customize->add_control('about_us_vision_content', [
+        'label' => __('Vision Content', 'sage'),
+        'section' => 'about_us_content',
+        'type' => 'textarea',
+        'priority' => 20,
+    ]);
+
+    // Add setting for About Us Mission title
+    $wp_customize->add_setting('about_us_mission_title', [
+        'default' => 'MISI',
+        'sanitize_callback' => 'sanitize_text_field',
+        'transport' => 'postMessage',
+    ]);
+
+    // Add control for About Us Mission title
+    $wp_customize->add_control('about_us_mission_title', [
+        'label' => __('Mission Title', 'sage'),
+        'section' => 'about_us_content',
+        'type' => 'text',
+        'priority' => 30,
+    ]);
+
+    // Add setting for About Us Mission content
+    $wp_customize->add_setting('about_us_mission_content', [
+        'default' => 'Inovasi dan Kualitas: Mengembangkan solusi IT terkini dan berkualitas tinggi dalam proses transformasi digital secara efisien dan optimal. Keamanan Sistem: Menyediakan layanan keamanan aplikasi, data dan infrastruktur untuk melindungi aset digital pelanggan. Kepuasan Pelanggan: Menempatkan kepuasan pelanggan sebagai prioritas utama dengan memberikan layanan yang responsif dan proaktif. Kolaborasi dan Kemitraan: Membangun dan memelihara kemitraan strategis dengan perusahaan lain untuk menghadirkan solusi yang lebih komprehensif dan inovatif. Pengembangan Sumber Daya Manusia: Mendorong pengembangan profesional karyawan melalui program pengembangan keterampilan.',
+        'sanitize_callback' => 'sanitize_textarea_field',
+        'transport' => 'postMessage',
+    ]);
+
+    // Add control for About Us Mission content
+    $wp_customize->add_control('about_us_mission_content', [
+        'label' => __('Mission Content', 'sage'),
+        'section' => 'about_us_content',
+        'type' => 'textarea',
+        'priority' => 40,
+    ]);
+
+    // Add section for About Us Hero section
+    $wp_customize->add_section('about_us_hero', [
+        'title' => __('About Us Hero Section', 'sage'),
+        'description' => __('Customize the hero section on the About Us page.', 'sage'),
+        'priority' => 45,
+    ]);
+
+    // Add setting for About Us hero subtitle
+    $wp_customize->add_setting('about_us_hero_subtitle', [
+        'default' => 'tentang kami',
+        'sanitize_callback' => 'sanitize_text_field',
+        'transport' => 'postMessage',
+    ]);
+
+    // Add control for About Us hero subtitle
+    $wp_customize->add_control('about_us_hero_subtitle', [
+        'label' => __('Hero Subtitle', 'sage'),
+        'section' => 'about_us_hero',
+        'type' => 'text',
+        'priority' => 10,
+    ]);
+
+    // Add setting for About Us hero title
+    $wp_customize->add_setting('about_us_hero_title', [
+        'default' => 'Kami terdepan dalam solusi digitalisasi',
+        'sanitize_callback' => 'sanitize_text_field',
+        'transport' => 'postMessage',
+    ]);
+
+    // Add control for About Us hero title
+    $wp_customize->add_control('about_us_hero_title', [
+        'label' => __('Hero Title', 'sage'),
+        'section' => 'about_us_hero',
+        'type' => 'text',
+        'priority' => 20,
+    ]);
+
+    // Add setting for About Us hero description
+    $wp_customize->add_setting('about_us_hero_description', [
+        'default' => 'Lentera berdiri dan berkembang untuk menjawab tantangan tingginya laju digitalisasi di Indonesia. Kami meyakini bahwa inovasi teknologi bukan hanya sekedar alat bisnis, melainkan sebagai partner bisnis perusahaan.',
+        'sanitize_callback' => 'sanitize_textarea_field',
+        'transport' => 'postMessage',
+    ]);
+
+    // Add control for About Us hero description
+    $wp_customize->add_control('about_us_hero_description', [
+        'label' => __('Hero Description', 'sage'),
+        'section' => 'about_us_hero',
+        'type' => 'textarea',
+        'priority' => 30,
+    ]);
+
+    // Add setting for About Us hero image
+    $wp_customize->add_setting('about_us_hero_image', [
+        'default' => '',
+        'sanitize_callback' => 'absint',
+        'transport' => 'postMessage',
+    ]);
+
+    // Add control for About Us hero image
+    $wp_customize->add_control(new \WP_Customize_Media_Control($wp_customize, 'about_us_hero_image', [
+        'label' => __('Hero Image', 'sage'),
+        'section' => 'about_us_hero',
+        'mime_type' => 'image',
+        'priority' => 40,
+    ]));
 });
 
 /**
@@ -287,4 +423,83 @@ function get_products_count() {
  */
 function get_products_order() {
     return get_theme_mod('products_order', 'menu_order');
+}
+
+/**
+ * Helper function to get About Us Vision title.
+ *
+ * @return string
+ */
+function get_about_us_vision_title() {
+    return get_theme_mod('about_us_vision_title', 'VISI');
+}
+
+/**
+ * Helper function to get About Us Vision content.
+ *
+ * @return string
+ */
+function get_about_us_vision_content() {
+    return get_theme_mod('about_us_vision_content', 'Menjadi perusahaan penyedia jasa IT terdepan yang handal dan inovatif, mendorong transformasi digital melalui layanan pengembangan aplikasi, infrastruktur, keamanan sistem dan implementasi sistem yang terpercaya.');
+}
+
+/**
+ * Helper function to get About Us Mission title.
+ *
+ * @return string
+ */
+function get_about_us_mission_title() {
+    return get_theme_mod('about_us_mission_title', 'MISI');
+}
+
+/**
+ * Helper function to get About Us Mission content.
+ *
+ * @return string
+ */
+function get_about_us_mission_content() {
+    return get_theme_mod('about_us_mission_content', 'Inovasi dan Kualitas: Mengembangkan solusi IT terkini dan berkualitas tinggi dalam proses transformasi digital secara efisien dan optimal. Keamanan Sistem: Menyediakan layanan keamanan aplikasi, data dan infrastruktur untuk melindungi aset digital pelanggan. Kepuasan Pelanggan: Menempatkan kepuasan pelanggan sebagai prioritas utama dengan memberikan layanan yang responsif dan proaktif. Kolaborasi dan Kemitraan: Membangun dan memelihara kemitraan strategis dengan perusahaan lain untuk menghadirkan solusi yang lebih komprehensif dan inovatif. Pengembangan Sumber Daya Manusia: Mendorong pengembangan profesional karyawan melalui program pengembangan keterampilan.');
+}
+
+/**
+ * Helper function to get About Us hero subtitle.
+ *
+ * @return string
+ */
+function get_about_us_hero_subtitle() {
+    return get_theme_mod('about_us_hero_subtitle', 'tentang kami');
+}
+
+/**
+ * Helper function to get About Us hero title.
+ *
+ * @return string
+ */
+function get_about_us_hero_title() {
+    return get_theme_mod('about_us_hero_title', 'Kami terdepan dalam solusi digitalisasi');
+}
+
+/**
+ * Helper function to get About Us hero description.
+ *
+ * @return string
+ */
+function get_about_us_hero_description() {
+    return get_theme_mod('about_us_hero_description', 'Lentera berdiri dan berkembang untuk menjawab tantangan tingginya laju digitalisasi di Indonesia. Kami meyakini bahwa inovasi teknologi bukan hanya sekedar alat bisnis, melainkan sebagai partner bisnis perusahaan.');
+}
+
+/**
+ * Helper function to get About Us hero image URL.
+ *
+ * @return string
+ */
+function get_about_us_hero_image_url() {
+    $image_id = get_theme_mod('about_us_hero_image');
+    
+    if ($image_id) {
+        return wp_get_attachment_image_url($image_id, 'full');
+    }
+    
+    // Fallback to default hero image
+    return Vite::asset('resources/images/lentera-hero.png');
 }

@@ -42,6 +42,23 @@
 }
 
 </style>
+  @php
+    $products = new WP_Query([
+      'post_type' => 'product',
+      'posts_per_page' => 1,
+      'orderby' => \App\get_products_order(),
+      'order' => 'ASC',
+      'meta_query' => [
+          [
+              'key' => '_product_visible',
+              'value' => '1',
+              'compare' => '=',
+          ],
+      ],
+    ]);
+    $product_id = $products->have_posts() ? $products->posts[0]->ID : null;
+  @endphp
+
   <div class="px-2 md:px-8">
     <div class="flex justify-between items-center h-24">
       <!-- Logo - Left -->
@@ -55,26 +72,8 @@
       <nav class="hidden lg:flex absolute left-1/2 transform -translate-x-1/2 items-center">
         <div class="flex items-center space-x-10">
           <a href="{{ home_url('/') }}" class="text-body text-gray-700 hover:text-blue-900 transition-colors duration-300 font-semibold {{ request()->is('/') ? 'nav-active' : '' }}">Home</a>
-          <a href="{{ home_url('/products') }}" class="text-body text-gray-700 hover:text-blue-900 transition-colors duration-300 font-semibold {{ str_contains(request()->path(), 'products') ? 'nav-active' : '' }}">Products</a>
-          <a href="{{ home_url('/request-demo') }}" class="text-body text-gray-700 hover:text-blue-900 transition-colors duration-300 font-semibold {{ str_contains(request()->path(), 'request-demo') ? 'nav-active' : '' }}">Request Demo</a>
-          <a href="{{ home_url('/customers') }}" class="text-body text-gray-700 hover:text-blue-900 transition-colors duration-300 font-semibold {{ str_contains(request()->path(), 'customers') ? 'nav-active' : '' }}">Customers</a>
-          
-          <!-- About Us Dropdown -->
-          <div class="relative group">
-            <button class="text-body text-gray-700 hover:text-blue-900 transition-colors duration-300 font-semibold flex items-center space-x-1">
-              <span>About Us</span>
-              <svg class="w-5 h-5 transition-transform duration-300 group-hover:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-              </svg>
-            </button>
-            
-            <!-- Dropdown Menu -->
-            <div class="absolute top-full left-0 mt-2 w-48 bg-white rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform group-hover:translate-y-0 translate-y-2 border border-gray-200 z-50">
-              <a href="{{ home_url('/customer-support') }}" class="block px-4 py-3 text-body text-gray-700 hover:text-blue-900 hover:bg-gray-50 transition-colors duration-200 rounded-t-lg {{ str_contains(request()->path(), 'customer-support') ? 'nav-active' : '' }}">Customer Support</a>
-              <a href="{{ home_url('/sales') }}" class="block px-4 py-3 text-body text-gray-700 hover:text-blue-900 hover:bg-gray-50 transition-colors duration-200 {{ str_contains(request()->path(), 'sales') ? 'nav-active' : '' }}">Sales</a>
-              <a href="{{ home_url('/free-consultation') }}" class="block px-4 py-3 text-body text-gray-700 hover:text-blue-900 hover:bg-gray-50 transition-colors duration-200 rounded-b-lg {{ str_contains(request()->path(), 'free-consultation') ? 'nav-active' : '' }}">Free Consultation</a>
-            </div>
-          </div>
+          <a href="{{ get_permalink($product_id) }}" class="text-body text-gray-700 hover:text-blue-900 transition-colors duration-300 font-semibold {{ str_contains(request()->path(), 'products') ? 'nav-active' : '' }}">Products</a>
+          <a href="{{ home_url('/about-us') }}" class="text-body text-gray-700 hover:text-blue-900 transition-colors duration-300 font-semibold {{ str_contains(request()->path(), 'about-us') ? 'nav-active' : '' }}">About Us</a>
         </div>
       </nav>
 
@@ -108,24 +107,8 @@
   <!-- Sidebar Navigation -->
   <nav class="flex flex-col p-4 space-y-2">
     <a href="{{ home_url('/') }}" class="block px-4 py-3 text-body text-gray-700 hover:text-blue-900 hover:bg-gray-50 transition-colors duration-200 rounded-lg font-medium {{ request()->is('/') ? 'nav-active' : '' }}">Home</a>
-    <a href="{{ home_url('/products') }}" class="block px-4 py-3 text-body text-gray-700 hover:text-blue-900 hover:bg-gray-50 transition-colors duration-200 rounded-lg font-medium {{ str_contains(request()->path(), 'products') ? 'nav-active' : '' }}">Products</a>
-    <a href="{{ home_url('/request-demo') }}" class="block px-4 py-3 text-body text-gray-700 hover:text-blue-900 hover:bg-gray-50 transition-colors duration-200 rounded-lg font-medium {{ str_contains(request()->path(), 'request-demo') ? 'nav-active' : '' }}">Request Demo</a>
-    <a href="{{ home_url('/customers') }}" class="block px-4 py-3 text-body text-gray-700 hover:text-blue-900 hover:bg-gray-50 transition-colors duration-200 rounded-lg font-medium {{ str_contains(request()->path(), 'customers') ? 'nav-active' : '' }}">Customers</a>
-    
-    <!-- Mobile About Us Section -->
-    <div class="border-t border-gray-200 pt-4 mt-2">
-      <div class="px-4 py-3 text-gray-700 font-medium flex items-center justify-between cursor-pointer hover:bg-gray-50 rounded-lg transition-colors duration-200" id="mobileAboutToggle">
-        <span>About Us</span>
-        <svg class="w-4 h-4 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-        </svg>
-      </div>
-      <div class="mobile-submenu hidden pl-4 space-y-1 mt-2" id="mobileAboutSubmenu">
-        <a href="{{ home_url('/customer-support') }}" class="block px-4 py-3 text-small text-gray-600 hover:text-blue-900 hover:bg-gray-50 transition-colors duration-200 rounded-lg {{ str_contains(request()->path(), 'customer-support') ? 'nav-active' : '' }}">Customer Support</a>
-        <a href="{{ home_url('/sales') }}" class="block px-4 py-3 text-small text-gray-600 hover:text-blue-900 hover:bg-gray-50 transition-colors duration-200 rounded-lg {{ str_contains(request()->path(), 'sales') ? 'nav-active' : '' }}">Sales</a>
-        <a href="{{ home_url('/free-consultation') }}" class="block px-4 py-3 text-small text-gray-600 hover:text-blue-900 hover:bg-gray-50 transition-colors duration-200 rounded-lg {{ str_contains(request()->path(), 'free-consultation') ? 'nav-active' : '' }}">Free Consultation</a>
-      </div>
-    </div>
+    <a href="{{ get_permalink($product_id) }}" class="block px-4 py-3 text-body text-gray-700 hover:text-blue-900 hover:bg-gray-50 transition-colors duration-200 rounded-lg font-medium {{ str_contains(request()->path(), 'products') ? 'nav-active' : '' }}">Products</a>
+    <a href="{{ home_url('/about-us') }}" class="block px-4 py-3 text-body text-gray-700 hover:text-blue-900 hover:bg-gray-50 transition-colors duration-200 rounded-lg font-medium {{ str_contains(request()->path(), 'about-us') ? 'nav-active' : '' }}">About Us</a>
     
     <!-- Hubungi Kami Button -->
     <a href="{{ home_url('/contact') }}" class="mt-6 shiny-button hubungi-button {{ str_contains(request()->path(), 'contact') ? 'bg-blue-700' : 'bg-blue-900 hover:bg-blue-800' }} text-white font-medium py-3 px-6 rounded-lg transition-all duration-300 text-body text-center">
