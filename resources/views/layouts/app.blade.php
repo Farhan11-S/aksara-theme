@@ -37,6 +37,9 @@
       </div>
     </div>
 
+    <!-- Floating WhatsApp Button -->
+    @include('components.whatsapp-float')
+
     @php(do_action('get_footer'))
     @php(wp_footer())
   </body>

@@ -308,6 +308,179 @@ add_action('customize_register', function ($wp_customize) {
         'mime_type' => 'image',
         'priority' => 40,
     ]));
+
+    // Add section for About section on homepage
+    $wp_customize->add_section('homepage_about', [
+        'title' => __('Homepage About Section', 'sage'),
+        'description' => __('Customize the About section on the homepage.', 'sage'),
+        'priority' => 35,
+    ]);
+
+    // Add setting for About section title
+    $wp_customize->add_setting('homepage_about_title', [
+        'default' => 'About Aksara Sinergi Teknologi',
+        'sanitize_callback' => 'sanitize_text_field',
+        'transport' => 'postMessage',
+    ]);
+
+    // Add control for About section title
+    $wp_customize->add_control('homepage_about_title', [
+        'label' => __('About Section Title', 'sage'),
+        'section' => 'homepage_about',
+        'type' => 'text',
+        'priority' => 10,
+    ]);
+
+    // Add setting for About section first paragraph
+    $wp_customize->add_setting('homepage_about_paragraph1', [
+        'default' => 'With over a decade of experience in technology solutions, we\'ve helped hundreds of businesses transform their operations and achieve their digital goals. Our team of expert developers and consultants are committed to delivering innovative solutions that drive growth and efficiency.',
+        'sanitize_callback' => 'sanitize_textarea_field',
+        'transport' => 'postMessage',
+    ]);
+
+    // Add control for About section first paragraph
+    $wp_customize->add_control('homepage_about_paragraph1', [
+        'label' => __('About Section First Paragraph', 'sage'),
+        'section' => 'homepage_about',
+        'type' => 'textarea',
+        'priority' => 20,
+    ]);
+
+    // Add setting for About section second paragraph
+    $wp_customize->add_setting('homepage_about_paragraph2', [
+        'default' => 'We believe in building long-term partnerships with our clients, understanding their unique challenges, and creating tailored solutions that deliver measurable results.',
+        'sanitize_callback' => 'sanitize_textarea_field',
+        'transport' => 'postMessage',
+    ]);
+
+    // Add control for About section second paragraph
+    $wp_customize->add_control('homepage_about_paragraph2', [
+        'label' => __('About Section Second Paragraph', 'sage'),
+        'section' => 'homepage_about',
+        'type' => 'textarea',
+        'priority' => 30,
+    ]);
+
+    // Add setting for About section button text
+    $wp_customize->add_setting('homepage_about_button_text', [
+        'default' => 'Learn More About Us',
+        'sanitize_callback' => 'sanitize_text_field',
+        'transport' => 'postMessage',
+    ]);
+
+    // Add control for About section button text
+    $wp_customize->add_control('homepage_about_button_text', [
+        'label' => __('About Section Button Text', 'sage'),
+        'section' => 'homepage_about',
+        'type' => 'text',
+        'priority' => 40,
+    ]);
+
+    // Add setting for About section image
+    $wp_customize->add_setting('homepage_about_image', [
+        'default' => '',
+        'sanitize_callback' => 'absint',
+        'transport' => 'postMessage',
+    ]);
+
+    // Add control for About section image
+    $wp_customize->add_control(new \WP_Customize_Media_Control($wp_customize, 'homepage_about_image', [
+        'label' => __('About Section Image', 'sage'),
+        'section' => 'homepage_about',
+        'mime_type' => 'image',
+        'priority' => 50,
+    ]));
+
+    // Add section for contact settings
+    $wp_customize->add_section('contact_settings', [
+        'title' => __('Contact Settings', 'sage'),
+        'description' => __('Configure contact information and WhatsApp integration.', 'sage'),
+        'priority' => 55,
+    ]);
+
+    // Add setting for WhatsApp number
+    $wp_customize->add_setting('whatsapp_number', [
+        'default' => '6281234567890',
+        'sanitize_callback' => 'sanitize_text_field',
+        'transport' => 'postMessage',
+    ]);
+
+    // Add control for WhatsApp number
+    $wp_customize->add_control('whatsapp_number', [
+        'label' => __('WhatsApp Number', 'sage'),
+        'description' => __('Enter your WhatsApp number with country code (e.g., 6281234567890)', 'sage'),
+        'section' => 'contact_settings',
+        'type' => 'text',
+        'priority' => 10,
+    ]);
+
+    // Add setting for WhatsApp message
+    $wp_customize->add_setting('whatsapp_message', [
+        'default' => 'Hello, I would like to know more about your services.',
+        'sanitize_callback' => 'sanitize_textarea_field',
+        'transport' => 'postMessage',
+    ]);
+
+    // Add control for WhatsApp message
+    $wp_customize->add_control('whatsapp_message', [
+        'label' => __('Default WhatsApp Message', 'sage'),
+        'description' => __('Default message that will be pre-filled when users contact via WhatsApp', 'sage'),
+        'section' => 'contact_settings',
+        'type' => 'textarea',
+        'priority' => 20,
+    ]);
+
+    // Add section for CTA section
+    $wp_customize->add_section('cta_section', [
+        'title' => __('CTA Section', 'sage'),
+        'description' => __('Customize Call-to-Action section.', 'sage'),
+        'priority' => 40,
+    ]);
+
+    // Add setting for CTA title
+    $wp_customize->add_setting('cta_title', [
+        'default' => 'Ready to Transform Your Business?',
+        'sanitize_callback' => 'sanitize_text_field',
+        'transport' => 'postMessage',
+    ]);
+
+    // Add control for CTA title
+    $wp_customize->add_control('cta_title', [
+        'label' => __('CTA Title', 'sage'),
+        'section' => 'cta_section',
+        'type' => 'text',
+        'priority' => 10,
+    ]);
+
+    // Add setting for CTA description
+    $wp_customize->add_setting('cta_description', [
+        'default' => 'Get in touch with our team today to discuss how we can help you achieve your technology goals.',
+        'sanitize_callback' => 'sanitize_textarea_field',
+        'transport' => 'postMessage',
+    ]);
+
+    // Add control for CTA description
+    $wp_customize->add_control('cta_description', [
+        'label' => __('CTA Description', 'sage'),
+        'section' => 'cta_section',
+        'type' => 'textarea',
+        'priority' => 20,
+    ]);
+
+    // Add setting for CTA button text
+    $wp_customize->add_setting('cta_button_text', [
+        'default' => 'Contact Us',
+        'sanitize_callback' => 'sanitize_text_field',
+        'transport' => 'postMessage',
+    ]);
+
+    // Add control for CTA button text
+    $wp_customize->add_control('cta_button_text', [
+        'label' => __('CTA Button Text', 'sage'),
+        'section' => 'cta_section',
+        'type' => 'text',
+        'priority' => 30,
+    ]);
 });
 
 /**
@@ -502,4 +675,120 @@ function get_about_us_hero_image_url() {
     
     // Fallback to default hero image
     return Vite::asset('resources/images/lentera-hero.png');
+}
+
+/**
+ * Helper function to get homepage about section title.
+ *
+ * @return string
+ */
+function get_homepage_about_title() {
+    return get_theme_mod('homepage_about_title', 'About Aksara Sinergi Teknologi');
+}
+
+/**
+ * Helper function to get homepage about section first paragraph.
+ *
+ * @return string
+ */
+function get_homepage_about_paragraph1() {
+    return get_theme_mod('homepage_about_paragraph1', 'With over a decade of experience in technology solutions, we\'ve helped hundreds of businesses transform their operations and achieve their digital goals. Our team of expert developers and consultants are committed to delivering innovative solutions that drive growth and efficiency.');
+}
+
+/**
+ * Helper function to get homepage about section second paragraph.
+ *
+ * @return string
+ */
+function get_homepage_about_paragraph2() {
+    return get_theme_mod('homepage_about_paragraph2', 'We believe in building long-term partnerships with our clients, understanding their unique challenges, and creating tailored solutions that deliver measurable results.');
+}
+
+/**
+ * Helper function to get homepage about section button text.
+ *
+ * @return string
+ */
+function get_homepage_about_button_text() {
+    return get_theme_mod('homepage_about_button_text', 'Learn More About Us');
+}
+
+/**
+ * Helper function to get homepage about section image URL.
+ *
+ * @return string
+ */
+function get_homepage_about_image_url() {
+    $image_id = get_theme_mod('homepage_about_image');
+    
+    if ($image_id) {
+        return wp_get_attachment_image_url($image_id, 'full');
+    }
+    
+    // No fallback image by default, will show placeholder
+    return '';
+}
+
+/**
+ * Helper function to get WhatsApp number.
+ *
+ * @return string
+ */
+function get_whatsapp_number() {
+    return get_theme_mod('whatsapp_number', '6281234567890');
+}
+
+/**
+ * Helper function to get WhatsApp message.
+ *
+ * @return string
+ */
+function get_whatsapp_message() {
+    return get_theme_mod('whatsapp_message', 'Hello, I would like to know more about your services.');
+}
+
+/**
+ * Helper function to get WhatsApp URL.
+ *
+ * @param string|null $custom_message Optional custom message
+ * @return string
+ */
+function get_whatsapp_url($custom_message = null) {
+    $number = get_whatsapp_number();
+    $message = $custom_message ?: get_whatsapp_message();
+    
+    // Remove any non-digit characters from the number except + at the beginning
+    $number = preg_replace('/[^0-9+]/', '', $number);
+    
+    // URL encode the message
+    $message = urlencode($message);
+    
+    return "https://wa.me/{$number}?text={$message}";
+}
+
+/**
+ * Helper function to get CTA title.
+ *
+ * @return string
+ */
+function get_cta_title() {
+    return get_theme_mod('cta_title', 'Ready to Transform Your Business?');
+}
+
+/**
+ * Helper function to get CTA description.
+ *
+ * @return string
+ */
+function get_cta_description() {
+    return get_theme_mod('cta_description', 'Get in touch with our team today to discuss how we can help you achieve your technology goals.');
+}
+
+/**
+ * Helper function to get CTA button text.
+ *
+ * @return string
+ */
+function get_cta_button_text() {
+    return get_theme_mod('cta_button_text', 'Contact Us');
 }

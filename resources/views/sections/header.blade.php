@@ -71,14 +71,14 @@
       <!-- Desktop Navigation - Center -->
       <nav class="hidden lg:flex absolute left-1/2 transform -translate-x-1/2 items-center">
         <div class="flex items-center space-x-10">
-          <a href="{{ home_url('/') }}" class="text-body text-gray-700 hover:text-blue-900 transition-colors duration-300 font-semibold {{ request()->is('/') ? 'nav-active' : '' }}">Home</a>
-          <a href="{{ get_permalink($product_id) }}" class="text-body text-gray-700 hover:text-blue-900 transition-colors duration-300 font-semibold {{ str_contains(request()->path(), 'products') ? 'nav-active' : '' }}">Products</a>
-          <a href="{{ home_url('/about-us') }}" class="text-body text-gray-700 hover:text-blue-900 transition-colors duration-300 font-semibold {{ str_contains(request()->path(), 'about-us') ? 'nav-active' : '' }}">About Us</a>
+          <a href="{{ home_url('/') }}" class="text-body text-gray-700 hover:text-blue-900 transition-colors duration-300 font-semibold {{ request()->is('/') ? 'nav-active' : '' }}">Beranda</a>
+          <a href="{{ get_permalink($product_id) }}" class="text-body text-gray-700 hover:text-blue-900 transition-colors duration-300 font-semibold {{ str_contains(request()->path(), 'products') ? 'nav-active' : '' }}">Produk</a>
+          <a href="{{ home_url('/about-us') }}" class="text-body text-gray-700 hover:text-blue-900 transition-colors duration-300 font-semibold {{ str_contains(request()->path(), 'about-us') ? 'nav-active' : '' }}">Tentang Kami</a>
         </div>
       </nav>
 
       <!-- Hubungi Kami Button - Right (Desktop Only) -->
-      <a href="{{ home_url('/contact') }}" class="hidden lg:block shiny-button hubungi-button mr-2 md:mr-4 {{ str_contains(request()->path(), 'contact') ? 'bg-blue-700' : 'bg-blue-900 hover:bg-blue-800' }} text-white font-semibold py-3 px-6 rounded-lg transition-all duration-300 text-body">
+      <a href="{{ \App\get_whatsapp_url() }}" target="_blank" rel="noopener noreferrer" class="hidden lg:block shiny-button hubungi-button mr-2 md:mr-4 bg-blue-900 hover:bg-blue-800 text-white font-semibold py-3 px-6 rounded-lg transition-all duration-300 text-body">
         Hubungi Kami
       </a>
 
@@ -111,7 +111,7 @@
     <a href="{{ home_url('/about-us') }}" class="block px-4 py-3 text-body text-gray-700 hover:text-blue-900 hover:bg-gray-50 transition-colors duration-200 rounded-lg font-medium {{ str_contains(request()->path(), 'about-us') ? 'nav-active' : '' }}">About Us</a>
     
     <!-- Hubungi Kami Button -->
-    <a href="{{ home_url('/contact') }}" class="mt-6 shiny-button hubungi-button {{ str_contains(request()->path(), 'contact') ? 'bg-blue-700' : 'bg-blue-900 hover:bg-blue-800' }} text-white font-medium py-3 px-6 rounded-lg transition-all duration-300 text-body text-center">
+    <a href="{{ \App\get_whatsapp_url() }}" target="_blank" rel="noopener noreferrer" class="mt-6 shiny-button hubungi-button bg-blue-900 hover:bg-blue-800 text-white font-medium py-3 px-6 rounded-lg transition-all duration-300 text-body text-center">
       Hubungi Kami
     </a>
   </nav>

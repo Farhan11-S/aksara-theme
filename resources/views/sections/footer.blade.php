@@ -16,13 +16,30 @@
       </div>
 
       <!-- Middle: List of Products -->
+      @php
+        $products = new WP_Query([
+          'post_type' => 'product',
+          'posts_per_page' => -1,
+          'orderby' => \App\get_products_order(),
+          'order' => 'ASC',
+          'meta_query' => [
+              [
+                  'key' => '_product_visible',
+                  'value' => '1',
+                  'compare' => '=',
+              ],
+          ],
+        ]);
+      @endphp
       <div class="footer-middle text-left">
         <h3 class="text-xl font-semibold text-white mb-6">Produk Kami</h3>
         <ul class="space-y-3 text-lg">
-          <li><a href="#erp" class="text-gray-400 hover:text-white transition-colors duration-300">ERP - Enterprise Resource Planning</a></li>
-          <li><a href="#pims" class="text-gray-400 hover:text-white transition-colors duration-300">PIMS - Plantation Monitoring</a></li>
-          <li><a href="#bionic" class="text-gray-400 hover:text-white transition-colors duration-300">BIONIC - Barrier Gate Control</a></li>
-          <li><a href="#matapos" class="text-gray-400 hover:text-white transition-colors duration-300">MATAPOS - Point of Sale</a></li>
+          @if ($products->have_posts())
+            @while ($products->have_posts())
+              @php($products->the_post())
+              <li><a href="{{ get_permalink() }}" class="text-gray-400 hover:text-white transition-colors duration-300">{{ get_the_title() . ' - ' . get_post_meta(get_the_ID(), '_product_subtitle', true) }}</a></li>
+            @endwhile
+          @endif
         </ul>
       </div>
 
@@ -30,9 +47,9 @@
       <div class="footer-right text-left">
         <h3 class="text-xl font-semibold text-white mb-6">Informasi Perusahaan</h3>
         <div class="space-y-3 text-lg">
-          <a href="#about" class="text-gray-400 hover:text-white transition-colors duration-300 block">Tentang Kami</a>
-          <a href="#privacy" class="text-gray-400 hover:text-white transition-colors duration-300 block">Kebijakan Privasi</a>
-          <a href="#contact" class="text-gray-400 hover:text-white transition-colors duration-300 block">Hubungi Kami</a>
+          <a href="{{ home_url('/about-us') }}" class="text-gray-400 hover:text-white transition-colors duration-300 block">Tentang Kami</a>
+          <a href="{{ home_url('/privacy') }}" class="text-gray-400 hover:text-white transition-colors duration-300 block">Kebijakan Privasi</a>
+          <a href="{{ \App\get_whatsapp_url() }}" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-white transition-colors duration-300 block">Hubungi Kami</a>
         </div>
       </div>
     </div>

@@ -72,7 +72,7 @@
             <a href="{{ get_permalink($product_id) }}" class="inline-flex items-center justify-center px-8 py-3 bg-blue-900 text-white font-semibold rounded-lg hover:bg-blue-800 transition-colors duration-300" style="text-decoration: none">
               Lihat Produk
             </a>
-            <a href="{{ home_url('/contact') }}" class="inline-flex items-center justify-center px-8 py-3 bg-white text-blue-900 font-semibold rounded-lg border-2 border-blue-900 hover:bg-blue-50 transition-colors duration-300" style="text-decoration: none">
+            <a href="{{ \App\get_whatsapp_url() }}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center px-8 py-3 bg-white text-blue-900 font-semibold rounded-lg border-2 border-blue-900 hover:bg-blue-50 transition-colors duration-300" style="text-decoration: none">
               Hubungi Kami
             </a>
           </div>

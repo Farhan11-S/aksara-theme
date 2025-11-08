@@ -116,4 +116,122 @@
             }
         });
     });
+
+    // Update homepage about section title in real-time
+    wp.customize('homepage_about_title', function(value) {
+        value.bind(function(newVal) {
+            $('.section .text-content h2').text(newVal);
+        });
+    });
+
+    // Update homepage about section first paragraph in real-time
+    wp.customize('homepage_about_paragraph1', function(value) {
+        value.bind(function(newVal) {
+            $('.section .text-content p:first-of-type').text(newVal);
+        });
+    });
+
+    // Update homepage about section second paragraph in real-time
+    wp.customize('homepage_about_paragraph2', function(value) {
+        value.bind(function(newVal) {
+            $('.section .text-content p:last-of-type').text(newVal);
+        });
+    });
+
+    // Update homepage about section button text in real-time
+    wp.customize('homepage_about_button_text', function(value) {
+        value.bind(function(newVal) {
+            $('.learn-more-button a').text(newVal);
+        });
+    });
+
+    // Update homepage about section image in real-time
+    wp.customize('homepage_about_image', function(value) {
+        value.bind(function(newVal) {
+            if (newVal) {
+                // Get the URL of the new image
+                wp.media.attachment(newVal).fetch().then(function(attachment) {
+                    var imageContainer = $('.section .content-grid-2 > div:last-child');
+                    imageContainer.html('<img src="' + attachment.url + '" alt="' + wp.customize('homepage_about_title').get() + '" class="w-full h-full object-cover rounded-lg">');
+                });
+            } else {
+                // Fallback to placeholder
+                var imageContainer = $('.section .content-grid-2 > div:last-child');
+                imageContainer.html('<span class="text-small text-gray-500">Image Placeholder</span>');
+            }
+        });
+    });
+
+    // Update WhatsApp number in real-time
+    wp.customize('whatsapp_number', function(value) {
+        value.bind(function(newVal) {
+            // Update all WhatsApp links
+            $('a[href*="wa.me"], a[href*="api.whatsapp.com"]').each(function() {
+                var currentHref = $(this).attr('href');
+                var message = '';
+                
+                // Extract existing message from URL
+                var messageMatch = currentHref.match(/text=([^&]*)/);
+                if (messageMatch) {
+                    message = messageMatch[1];
+                } else {
+                    message = encodeURIComponent(wp.customize('whatsapp_message').get());
+                }
+                
+                // Clean the number and create new URL
+                var cleanNumber = newVal.replace(/[^0-9+]/g, '');
+                $(this).attr('href', 'https://wa.me/' + cleanNumber + '?text=' + message);
+            });
+            
+            // Show/hide floating WhatsApp button based on number
+            if (newVal) {
+                $('.fixed.bottom-6.right-6').show();
+            } else {
+                $('.fixed.bottom-6.right-6').hide();
+            }
+        });
+    });
+
+    // Update WhatsApp message in real-time
+    wp.customize('whatsapp_message', function(value) {
+        value.bind(function(newVal) {
+            // Update all WhatsApp links
+            $('a[href*="wa.me"], a[href*="api.whatsapp.com"]').each(function() {
+                var currentHref = $(this).attr('href');
+                var number = '';
+                
+                // Extract existing number from URL
+                var numberMatch = currentHref.match(/wa\.me\/([^?]*)/);
+                if (numberMatch) {
+                    number = numberMatch[1];
+                } else {
+                    number = wp.customize('whatsapp_number').get().replace(/[^0-9+]/g, '');
+                }
+                
+                // Create new URL with updated message
+                $(this).attr('href', 'https://wa.me/' + number + '?text=' + encodeURIComponent(newVal));
+            });
+        });
+    });
+
+    // Update CTA title in real-time
+    wp.customize('cta_title', function(value) {
+        value.bind(function(newVal) {
+            $('.section-lg.bg-blue-900 h2').text(newVal);
+        });
+    });
+
+    // Update CTA description in real-time
+    wp.customize('cta_description', function(value) {
+        value.bind(function(newVal) {
+            $('.section-lg.bg-blue-900 p').text(newVal);
+        });
+    });
+
+    // Update CTA button text in real-time
+    wp.customize('cta_button_text', function(value) {
+        value.bind(function(newVal) {
+            $('.section-lg.bg-blue-900 a').text(newVal);
+        });
+    });
 })(jQuery);
