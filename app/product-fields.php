@@ -21,6 +21,9 @@ add_action('add_meta_boxes', function () {
             $product_subtitle = get_post_meta($post->ID, '_product_subtitle', true);
             $product_icon = get_post_meta($post->ID, '_product_icon', true);
             $product_features = get_post_meta($post->ID, '_product_features', true);
+            $product_features_layout = get_post_meta($post->ID, '_product_features_layout', true);
+            $product_software_preview = get_post_meta($post->ID, '_product_software_preview', true);
+            $product_software_gallery = get_post_meta($post->ID, '_product_software_gallery', true);
             $product_button_text = get_post_meta($post->ID, '_product_button_text', true);
             $product_button_url = get_post_meta($post->ID, '_product_button_url', true);
             $product_visible = get_post_meta($post->ID, '_product_visible', true);
@@ -62,8 +65,78 @@ add_action('add_meta_boxes', function () {
                 
                 <div class="field-group">
                     <label for="product_features"><?php _e('Product Features', 'sage'); ?></label>
-                    <textarea id="product_features" name="product_features" rows="4" class="widefat"><?php echo esc_textarea($product_features); ?></textarea>
-                    <p class="description"><?php _e('List of key features (one per line)', 'sage'); ?></p>
+                    <?php
+                    $editor_id = 'product_features';
+                    $settings = [
+                        'textarea_name' => 'product_features',
+                        'media_buttons' => false,
+                        'textarea_rows' => 10,
+                        'teeny' => false,
+                        'quicktags' => true,
+                        'tinymce' => [
+                            'toolbar1' => 'formatselect,bold,italic,underline,bullist,numlist,link,unlink,blockquote,alignleft,aligncenter,alignright',
+                            'toolbar2' => '',
+                            'block_formats' => 'Paragraph=p;Heading 3=h3;Heading 4=h4;Pre=pre',
+                        ],
+                    ];
+                    wp_editor($product_features, $editor_id, $settings);
+                    ?>
+                    <p class="description"><?php _e('Use HTML formatting for product features. You can use headings, lists, bold text, etc.', 'sage'); ?></p>
+                </div>
+                
+                <div class="field-group">
+                    <label for="product_features_layout"><?php _e('Features Layout', 'sage'); ?></label>
+                    <select id="product_features_layout" name="product_features_layout" class="widefat">
+                        <option value="left" <?php selected($product_features_layout, 'left'); ?>><?php _e('Features on Left, Images on Right', 'sage'); ?></option>
+                        <option value="right" <?php selected($product_features_layout, 'right'); ?>><?php _e('Features on Right, Images on Left', 'sage'); ?></option>
+                    </select>
+                    <p class="description"><?php _e('Choose the layout direction for the features section', 'sage'); ?></p>
+                </div>
+                
+                <div class="field-group">
+                    <label for="product_software_preview"><?php _e('Software Preview Content', 'sage'); ?></label>
+                    <?php
+                    $editor_id = 'product_software_preview';
+                    $settings = [
+                        'textarea_name' => 'product_software_preview',
+                        'media_buttons' => false,
+                        'textarea_rows' => 8,
+                        'teeny' => false,
+                        'quicktags' => true,
+                        'tinymce' => [
+                            'toolbar1' => 'formatselect,bold,italic,underline,bullist,numlist,link,unlink,blockquote,alignleft,aligncenter,alignright',
+                            'toolbar2' => '',
+                            'block_formats' => 'Paragraph=p;Heading 3=h3;Heading 4=h4;Pre=pre',
+                        ],
+                    ];
+                    wp_editor($product_software_preview, $editor_id, $settings);
+                    ?>
+                    <p class="description"><?php _e('Content for the software preview section (left column). Use HTML formatting.', 'sage'); ?></p>
+                </div>
+                
+                <div class="field-group">
+                    <label for="product_software_gallery"><?php _e('Software Screenshots Gallery', 'sage'); ?></label>
+                    <div id="product-software-gallery-container">
+                        <div class="gallery-images-wrapper">
+                            <?php
+                            $gallery_images = $product_software_gallery ? explode(',', $product_software_gallery) : [];
+                            if (!empty($gallery_images)) {
+                                foreach ($gallery_images as $image_id) {
+                                    if ($image_id) {
+                                        $image_url = wp_get_attachment_image_url($image_id, 'thumbnail');
+                                        echo '<div class="gallery-image-item" data-image-id="' . esc_attr($image_id) . '">';
+                                        echo '<img src="' . esc_url($image_url) . '" alt="Gallery Image" />';
+                                        echo '<button type="button" class="remove-gallery-image">×</button>';
+                                        echo '</div>';
+                                    }
+                                }
+                            }
+                            ?>
+                        </div>
+                        <button type="button" id="add-gallery-image" class="button"><?php _e('Add Screenshot', 'sage'); ?></button>
+                        <input type="hidden" id="product_software_gallery" name="product_software_gallery" value="<?php echo esc_attr($product_software_gallery); ?>" />
+                    </div>
+                    <p class="description"><?php _e('Add screenshots for the software preview carousel (right column)', 'sage'); ?></p>
                 </div>
                 
                 <div class="field-group">
@@ -163,6 +236,41 @@ add_action('add_meta_boxes', function () {
                     align-items: center;
                     justify-content: center;
                 }
+                .gallery-images-wrapper {
+                    display: flex;
+                    flex-wrap: wrap;
+                    gap: 10px;
+                    margin-bottom: 10px;
+                }
+                .gallery-image-item {
+                    position: relative;
+                    width: 100px;
+                    height: 100px;
+                    border: 1px solid #ddd;
+                    border-radius: 4px;
+                    overflow: hidden;
+                }
+                .gallery-image-item img {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                }
+                .remove-gallery-image {
+                    position: absolute;
+                    top: 5px;
+                    right: 5px;
+                    background: #ff0000;
+                    color: #fff;
+                    border: none;
+                    border-radius: 50%;
+                    width: 20px;
+                    height: 20px;
+                    font-size: 12px;
+                    cursor: pointer;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                }
             </style>
             <?php
         },
@@ -170,6 +278,65 @@ add_action('add_meta_boxes', function () {
         'normal',
         'high'
     );
+});
+
+/**
+ * JavaScript for gallery management.
+ */
+add_action('admin_footer', function () {
+    global $post_type;
+    if ($post_type === 'product') {
+        ?>
+        <script>
+        jQuery(document).ready(function($) {
+            // Add gallery image
+            $('#add-gallery-image').on('click', function(e) {
+                e.preventDefault();
+                
+                var frame = wp.media({
+                    title: 'Select or Upload Screenshot',
+                    button: {
+                        text: 'Use this screenshot'
+                    },
+                    multiple: false
+                });
+                
+                frame.on('select', function() {
+                    var attachment = frame.state().get('selection').first().toJSON();
+                    var imageId = attachment.id;
+                    var imageUrl = attachment.sizes.thumbnail.url;
+                    
+                    var imageHtml = '<div class="gallery-image-item" data-image-id="' + imageId + '">' +
+                        '<img src="' + imageUrl + '" alt="Gallery Image" />' +
+                        '<button type="button" class="remove-gallery-image">×</button>' +
+                        '</div>';
+                    
+                    $('.gallery-images-wrapper').append(imageHtml);
+                    updateGalleryInput();
+                });
+                
+                frame.open();
+            });
+            
+            // Remove gallery image
+            $(document).on('click', '.remove-gallery-image', function(e) {
+                e.preventDefault();
+                $(this).closest('.gallery-image-item').remove();
+                updateGalleryInput();
+            });
+            
+            // Update hidden input with gallery image IDs
+            function updateGalleryInput() {
+                var imageIds = [];
+                $('.gallery-image-item').each(function() {
+                    imageIds.push($(this).data('image-id'));
+                });
+                $('#product_software_gallery').val(imageIds.join(','));
+            }
+        });
+        </script>
+        <?php
+    }
 });
 
 /**
@@ -219,6 +386,9 @@ add_action('save_post', function ($post_id) {
         'product_subtitle',
         'product_icon',
         'product_features',
+        'product_features_layout',
+        'product_software_preview',
+        'product_software_gallery',
         'product_button_text',
         'product_button_url',
         'product_visible',
@@ -227,8 +397,11 @@ add_action('save_post', function ($post_id) {
     
     foreach ($fields as $field) {
         if (isset($_POST[$field])) {
-            if ($field === 'product_carousel_images') {
+            if ($field === 'product_carousel_images' || $field === 'product_software_gallery') {
                 $value = sanitize_text_field($_POST[$field]);
+            } elseif ($field === 'product_features' || $field === 'product_software_preview') {
+                // Allow HTML content for product features and software preview but sanitize it properly
+                $value = wp_kses_post($_POST[$field]);
             } else {
                 $value = sanitize_text_field($_POST[$field]);
             }
@@ -270,10 +443,43 @@ function get_product_icon_svg($icon_name) {
 function get_product_features($post_id) {
     $features = get_post_meta($post_id, '_product_features', true);
     if (empty($features)) {
+        return '';
+    }
+    
+    // Return the HTML content as-is for direct rendering
+    return $features;
+}
+
+/**
+ * Get product software gallery images.
+ *
+ * @param int $post_id The product ID.
+ * @return array The gallery images array with URLs.
+ */
+function get_product_software_gallery($post_id) {
+    $software_gallery = get_post_meta($post_id, '_product_software_gallery', true);
+    if (empty($software_gallery)) {
         return [];
     }
     
-    return array_filter(array_map('trim', explode("\n", $features)));
+    $image_ids = explode(',', $software_gallery);
+    $images = [];
+    
+    foreach ($image_ids as $image_id) {
+        if ($image_id) {
+            $image_url = wp_get_attachment_image_url($image_id, 'large');
+            if ($image_url) {
+                $images[] = [
+                    'id' => $image_id,
+                    'url' => $image_url,
+                    'thumbnail' => wp_get_attachment_image_url($image_id, 'thumbnail'),
+                    'alt' => get_post_meta($image_id, '_wp_attachment_image_alt', true) ?: get_the_title($image_id)
+                ];
+            }
+        }
+    }
+    
+    return $images;
 }
 
 /**

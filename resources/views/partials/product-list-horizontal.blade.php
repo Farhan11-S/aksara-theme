@@ -117,7 +117,6 @@
     flex-shrink: 0;
     width: 48px;
     height: 48px;
-    background: #f3f4f6;
     border-radius: 8px;
     display: flex;
     align-items: center;

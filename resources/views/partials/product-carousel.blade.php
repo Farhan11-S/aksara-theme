@@ -3,9 +3,12 @@
 @endphp
 
 @if(!empty($carousel_images))
-    <section class="product-carousel-section py-16 bg-whtie">
+    <section class="product-carousel-section py-16 bg-white">
         <div class="container mx-auto px-4">
-            <div class="max-w-4xl mx-auto">
+            <div class="max-w-6xl mx-auto">
+                <div class="text-left mb-8">
+                    <h2 class="text-3xl font-bold text-gray-900">Dokumentasi</h2>
+                </div>
                 <div class="swiper product-image-carousel">
                     <div class="swiper-wrapper">
                         @foreach($carousel_images as $image)
