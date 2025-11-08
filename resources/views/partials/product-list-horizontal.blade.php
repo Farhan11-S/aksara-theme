@@ -26,7 +26,7 @@
                         $is_active = $product_id === $current_product_id;
                     @endphp
                     
-                    <div class="swiper-slide">
+                    <div class="swiper-slide py-5">
                         <a href="{{ get_permalink() }}" class="product-list-item {{ $is_active ? 'active' : '' }}">
                             <div class="product-list-item-inner">
                                 <div class="product-list-icon">
