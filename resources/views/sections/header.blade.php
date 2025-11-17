@@ -65,7 +65,7 @@
       <a class="brand flex items-center space-x-4 ml-2 md:ml-4" href="{{ home_url('/') }}">
         <img src="{{ \App\get_site_logo_url() }}" alt="{{ get_bloginfo('name', 'display') }}" class="w-16 h-16">
         <span class="text-h4 font-bold text-black hidden sm:block font-display">{{ get_bloginfo('name', 'display') }}</span>
-        <span class="text-h4 font-bold text-black sm:hidden font-display">{{ substr(get_bloginfo('name', 'display'), 0, 1) . substr(str_replace(' ', '', get_bloginfo('name', 'display')), -2, 2) }}</span>
+        {{-- <span class="text-h4 font-bold text-black sm:hidden font-display">{{ substr(get_bloginfo('name', 'display'), 0, 1) . substr(str_replace(' ', '', get_bloginfo('name', 'display')), -2, 2) }}</span> --}}
       </a>
 
       <!-- Desktop Navigation - Center -->
