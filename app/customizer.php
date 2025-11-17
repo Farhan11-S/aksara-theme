@@ -489,7 +489,7 @@ add_action('customize_register', function ($wp_customize) {
 add_action('customize_preview_init', function () {
     wp_enqueue_script(
         'sage-customizer',
-        asset('resources/js/customizer.js')->uri(),
+        Vite::asset('resources/js/customizer.js'),
         ['customize-preview'],
         null,
         true
@@ -509,7 +509,7 @@ function get_site_logo_url() {
     }
     
     // Fallback to default logo
-    return asset('resources/images/main-icon.png')->uri();
+    return Vite::asset('resources/images/main-icon.png');
 }
 
 /**
@@ -559,7 +559,7 @@ function get_hero_image_url() {
     }
     
     // Fallback to default hero image
-    return asset('resources/images/lentera-hero.png')->uri();
+    return Vite::asset('resources/images/lentera-hero.png');
 }
 
 /**
