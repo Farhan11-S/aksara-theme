@@ -41,11 +41,11 @@
 /* Animated gradient background */
 .hero-gradient {
   background: linear-gradient(135deg,
-    rgba(87, 2, 2, 0.9) 0%,
-    rgba(129, 14, 19, 0.95) 25%,
-    rgba(254, 76, 28, 1) 50%,
-    rgba(129, 14, 19, 0.95) 75%,
-    rgba(87, 2, 2, 0.9) 100%
+    oklch(30% .146 265.522) 0%,
+    oklch(35% .146 265.522) 25%,
+    oklch(37.9% .146 265.522) 50%,
+    oklch(35% .146 265.522) 75%,
+    oklch(30% .146 265.522) 100%
   );
   background-size: 400% 400%;
   animation: gradientShift 20s ease infinite;

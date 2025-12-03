@@ -32,7 +32,7 @@
             </div>
           </div>
           <div class="order-1 lg:order-2">
-            <img src="{{ \App\get_about_us_hero_image_url() }}" alt="Lentera Office" class="rounded-lg w-full h-auto">
+            <img src="{{ \App\get_about_us_hero_image_url() }}" alt="Aksara Office" class="rounded-lg w-full h-auto">
           </div>
         </div>
       </div>
@@ -66,7 +66,7 @@
           <h2 class="text-3xl lg:text-4xl font-bold text-gray-900 mb-6">Bergabunglah dengan Kami</h2>
           <p class="text-gray-600 text-lg leading-relaxed mb-8">
             Kami percaya bahwa tim yang solid adalah kunci kesuksesan dalam memberikan solusi terbaik bagi klien. 
-            Bergabunglah dengan Lentera dan menjadi bagian dari perjalanan transformasi digital Indonesia.
+            Bergabunglah dengan Aksara dan menjadi bagian dari perjalanan transformasi digital Indonesia.
           </p>
           <div class="flex flex-col sm:flex-row gap-4 justify-center">
             <a href="{{ get_permalink($product_id) }}" class="inline-flex items-center justify-center px-8 py-3 bg-blue-900 text-white font-semibold rounded-lg hover:bg-blue-800 transition-colors duration-300" style="text-decoration: none">
